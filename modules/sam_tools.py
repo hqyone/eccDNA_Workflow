@@ -14,7 +14,7 @@ sample_bam=test_dir+"/eccDNA/data-raw/GHS21010065/Sample_R21009037-1-D21010704/b
 ref_fa = test_dir+"/eccDNA/data-raw/genome/hg38_p13/GRCh38.p13.genome.fa"
 out_dir = test_dir+"/eccDNA/data-raw/GHS21010065/Sample_R21009037-1-D21010704"
 
-# A fragment may contains two reads 
+# A fragment may contains two reads （Read1 and Read2)
 class fragment():
     def __init__(self, name) -> None:
         self.query_name=name
@@ -70,7 +70,7 @@ def getJunSiteDic(sam, test_read_num=-1):
             frag = fragment(read.query_name)
             frag.addRead(read)
         elif (read.query_name!=query_name):
-            # new read_pair
+            # it is new read_pair
             junc_infor_ls = frag.createJuncInfor_ls()
             for ji in junc_infor_ls:
                 ji_id = ji.getID()

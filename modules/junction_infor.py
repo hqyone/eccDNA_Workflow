@@ -34,6 +34,9 @@ class JuncSite2():
         
         
 # The juncSite is abstract object to descript junction region
+# it contains all juntion_infors (reads) match to a Junction  Site.
+# The purpose of the class to generate consensense sequence for each Junction Site.
+# Right now, onlf one consensence sequence is permitted for one genome loci
 class JuncSite():
     def __init__(self, ji):
         self.id = ji.getID()
@@ -134,6 +137,7 @@ class JuncSite():
         seq_ls=["ATTTAGGGGGTASSTSSKT","AATTAGGGGGTASSTSSKT","AATTAGGGGGGTASSTSSKT","AATTAGGGGG"]
         print(self.getConsenseSeq(seq_ls, "right", 0.4, 2))                  
 
+# A class handle the information from a read
 class JuncInfor():
     def __init__(self):
         self.type=""
@@ -157,21 +161,23 @@ def getJunctionInfor(read):
         return None
     cigar_str=read.cigarstring
     chrom=read.reference_name
-    start=read.reference_start # In bam file the start is left residue
+    start=read.reference_start # In bam file the start pos is always left residue
     end=read.reference_end
     query_seq=read.query_sequence
     rev=read.is_reverse
     if not cigar_str: return None
-    if (chrom=="chr1" and end==14953):
-        print("hqyone")
+    # if (chrom=="chr1" and end==14953):
+    #     print("hqyone")
+    # ji_type = 5 
     m=re.match(r"^(\d+)[S](\d+)M$",cigar_str) #5'(+, -)
+    # ji_type = 3
     n=re.match(r"^(\d+)M(\d+)[S]$",cigar_str) #3'(-, +)
     if m or n:
         ji=JuncInfor()
         ji.chr=chrom
         if m: 
             left_len=int(m.groups(0)[0])
-            ji.loc=start
+            ji.loc=start  # the position of join site in genome
             ji.type=5
             ji.seq=query_seq
             ji.left_seq=query_seq[0:left_len]
@@ -179,8 +185,8 @@ def getJunctionInfor(read):
             ji.rev = rev
         elif n:
             left_len=int(n.groups(0)[0])
-            ji.loc=start+left_len
-            ji.type=3
+            ji.loc=start+left_len  # the position of join site in genome
+            ji.type=3  
             ji.seq = query_seq
             ji.left_seq=query_seq[0:left_len]
             ji.right_seq=query_seq[left_len:]
