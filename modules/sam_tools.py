@@ -1,7 +1,8 @@
-from source.junction_infor import JuncInfor, JuncSite, getJunctionInfor,JuncSite2
-from source.blast_tools import RunBLASTN
-from source.bigwig_tools import refineBedFile, findRegin, findRegion2, JoinSiteRegion
-from source.kosaraju_graph import Graph
+
+from modules.junction_infor import JuncInfor, JuncSite, getJunctionInfor,JuncSite2
+from modules.blast_tools import RunBLASTN
+from modules.bigwig_tools import refineBedFile, findRegin, findRegion2, JoinSiteRegion
+from modules.kosaraju_graph import Graph
 import pandas as pd
 import pyBigWig
 import os
