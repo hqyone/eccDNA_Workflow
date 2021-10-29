@@ -178,4 +178,4 @@ for  bam in bam_ls:
     s_name = list(s_df.loc[s_df["sample_id"]==s_id]["sample_name"])[0].replace('_eccdna',"")
     js_csv = "{}/{}_{}_js.csv".format(out_dir,s_id,s_name)
     print(s_id,s_name, js_csv)
-    getJunCSV(bam_file, js_csv)
+    getJunCSV(bam, js_csv)
